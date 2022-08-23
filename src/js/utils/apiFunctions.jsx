@@ -1,5 +1,3 @@
-//1 get pokemon information
-
 const GetPokemon = ({ url: apiUrl }) => {
     return new Promise((resolve, reject) => {
         fetch(apiUrl)
@@ -8,16 +6,11 @@ const GetPokemon = ({ url: apiUrl }) => {
     });
 }
 
-//2 get all pokemon info
-
 const GetAllPokemon = async (apiUrl) => {
     const response = await fetch(apiUrl);
     const data = await response.json();
     return data;
 }
-
-
-//3 get pokemon statistics
 
 const GetPokemonStats = async (response) => {
     const pokemonStats = await Promise.all(response.map(async pokemon => {
@@ -30,7 +23,7 @@ const GetPokemonStats = async (response) => {
     return pokemonStats;
 }
 
-export const apiFn = {
+export const apiFunctions = {
     GetAllPokemon,
     GetPokemon,
     GetPokemonStats

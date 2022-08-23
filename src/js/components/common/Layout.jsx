@@ -1,8 +1,8 @@
 import React from 'react'
 import PokemonPage from "../pokemon-page.jsx"
 
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "./Header.jsx";
+import Footer from "./Footer.jsx";
 
 
 const Layout = () => {

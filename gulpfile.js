@@ -2,16 +2,17 @@ const { src, dest, series, watch, parallel } = require('gulp');
 const browserSync = require('browser-sync').create();
 const autoprefixer = require('gulp-autoprefixer');
 const sass = require('gulp-sass')(require('sass'));
-const clean = require('gulp-clean');
 const browserify = require('browserify');
 const source = require("vinyl-source-stream");
 const buffer = require("vinyl-buffer");
 const util = require("gulp-util");
+const rimraf = require('rimraf');
 const babelify = require('babelify');
 
+const SOURCE_PATH = 'src/js/index.jsx';
 const STYLE_PATH = 'src/sass/**/*.scss';
-const SCRIPT_PATH = 'src/js/**/*.js';
-const HTML_PATH = 'src/**/*.html';
+const SCRIPT_PATH = 'src/js/**/*.{js,jsx}';
+const RESOURCES_PATH = ['src/index.html', 'src/images/**/*', 'src/fonts/**/*'];
 const DIST_PATH = 'dist';
 
 const serve = (done) => {
@@ -20,11 +21,15 @@ const serve = (done) => {
             baseDir: DIST_PATH
         }
     });
+    watch(STYLE_PATH, series(processStyles, browserReload));
+    watch(SCRIPT_PATH, series(processScripts, browserReload));
+    watch(RESOURCES_PATH, series(copyResources, browserReload));
+    watch(SOURCE_PATH, series(processScripts, browserReload));
     done();
 }
 
 const processScripts = () => {
-    return browserify('src/js/index.js')
+    return browserify('src/js/index.jsx')
         .transform(
             babelify.configure({
                 presets: ["@babel/preset-env", "@babel/react"]
@@ -68,8 +73,8 @@ const processStyles = () => {
         .on("error", util.log)
 }
 
-const copyHTML = () => {
-    return src('src/index.html')
+const copyResources = () => {
+    return src(RESOURCES_PATH, { "base" : "./src/" })
         .pipe(
             dest('dist')
         )
@@ -80,35 +85,14 @@ const copyHTML = () => {
 }
 
 const cleanDist = (done) => {
-    return clean(DIST_PATH)
-        .pipe(
-            done()
-        )
+    return rimraf(DIST_PATH, () => {
+        console.log(`Deleted ${DIST_PATH}`);
+        done()
+    });
 }
 
-const watchStyleFiles = () => {
-    watch(STYLE_PATH, series(processStyles, browserReload));
-};
-
-const watchScriptFiles = () => {
-    watch(SCRIPT_PATH, series(processScripts, browserReload));
-};
-
-const watcher = () => {
-    watchStyleFiles();
-    watchScriptFiles();
-    watch(HTML_PATH, series(copyHTML, browserReload));
-};
-
-const buildFiles = parallel(processStyles, processScripts, copyHTML)
-const watchFiles = series(buildFiles, parallel(watcher, serve));
+const buildFiles = series(cleanDist, parallel(processStyles, processScripts, copyResources))
+const watchFiles = series(buildFiles, serve);
 
 exports.default = buildFiles;
 exports.dev = watchFiles;
-
-exports.watchStyles = parallel(serve, watchStyleFiles);
-exports.watchScripts = parallel(serve, watchScriptFiles);
-
-exports.processStyles = processStyles;
-exports.processScripts = processScripts;
-exports.copyHTML = copyHTML;

@@ -1,3 +1,6 @@
 .header {
   min-height: 480px;
 }
+.header.header-image {
+  background-size: cover;
+}

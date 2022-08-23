@@ -36527,9 +36527,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 var Header = function Header() {
   return /*#__PURE__*/_react["default"].createElement("header", {
-    className: "d-flex",
+    className: "d-flex header-image",
     style: {
-      "backgroundImage": "url(/img/background.jpg)"
+      "backgroundImage": "url(/images/background.jpg)"
     }
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "container"
@@ -36553,37 +36553,11 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _reactRouterDom = require("react-router-dom");
-
-var _layout = _interopRequireDefault(require("./layout"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var AppRoutes = function AppRoutes() {
-  return /*#__PURE__*/_react["default"].createElement(_reactRouterDom.BrowserRouter, null, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Routes, null, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Route, {
-    path: "/",
-    element: /*#__PURE__*/_react["default"].createElement(_layout["default"], null)
-  })));
-};
-
-var _default = AppRoutes;
-exports["default"] = _default;
-
-},{"./layout":26,"react":17,"react-router-dom":9}],26:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
 var _pokemonPage = _interopRequireDefault(require("../pokemon-page.jsx"));
 
-var _Header = _interopRequireDefault(require("./Header"));
+var _Header = _interopRequireDefault(require("./Header.jsx"));
 
-var _Footer = _interopRequireDefault(require("./Footer"));
+var _Footer = _interopRequireDefault(require("./Footer.jsx"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -36594,7 +36568,7 @@ var Layout = function Layout() {
 var _default = Layout;
 exports["default"] = _default;
 
-},{"../pokemon-page.jsx":28,"./Footer":23,"./Header":24,"react":17}],27:[function(require,module,exports){
+},{"../pokemon-page.jsx":28,"./Footer.jsx":23,"./Header.jsx":24,"react":17}],26:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36604,39 +36578,94 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
+var _reactRouterDom = require("react-router-dom");
+
+var _Layout = _interopRequireDefault(require("./Layout.jsx"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var AppRoutes = function AppRoutes() {
+  return /*#__PURE__*/_react["default"].createElement(_reactRouterDom.BrowserRouter, null, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Routes, null, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Route, {
+    path: "/",
+    element: /*#__PURE__*/_react["default"].createElement(_Layout["default"], null)
+  })));
+};
+
+var _default = AppRoutes;
+exports["default"] = _default;
+
+},{"./Layout.jsx":25,"react":17,"react-router-dom":9}],27:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _ErrorInfo = _interopRequireDefault(require("../utils/ErrorInfo.jsx"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var PokemonList = function PokemonList(_ref) {
   var pokemonData = _ref.pokemonData;
-  var contentlength = pokemonData.length;
-  console.log(contentlength);
-  return contentlength === 0 ? 'Nothing Found' : /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "container text-center"
+  var pokemonDataLength = pokemonData.length;
+  console.log(pokemonData);
+  return pokemonDataLength === 0 ? /*#__PURE__*/_react["default"].createElement(_ErrorInfo["default"], null) : /*#__PURE__*/_react["default"].createElement("div", {
+    className: "container my-5"
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "row row-cols-4"
-  }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "col"
-  }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "card"
-  }, /*#__PURE__*/_react["default"].createElement("img", {
-    className: "card-img-top",
-    alt: "..."
-  }), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "card-body"
-  }, /*#__PURE__*/_react["default"].createElement("h5", {
-    className: "card-title"
-  }, "Card title"), /*#__PURE__*/_react["default"].createElement("p", {
-    className: "card-text"
-  }, "Some quick example text to build on the card title and make up the bulk of the card's content."), /*#__PURE__*/_react["default"].createElement("a", {
-    href: "#",
-    className: "btn btn-primary"
-  }, "Go somewhere")))))));
+    className: "row row-cols-1 row-cols-md-3 row-cols-lg-4"
+  }, pokemonData.map(function (data, rootIndex) {
+    return /*#__PURE__*/_react["default"].createElement("div", {
+      className: "col my-4",
+      key: rootIndex
+    }, /*#__PURE__*/_react["default"].createElement("div", {
+      className: "card"
+    }, /*#__PURE__*/_react["default"].createElement("div", {
+      className: "image-container"
+    }, /*#__PURE__*/_react["default"].createElement("img", {
+      className: "card-img-top p-4",
+      src: "https://img.pokemondb.net/artwork/large/".concat(data.name, ".jpg"),
+      alt: data.name
+    })), /*#__PURE__*/_react["default"].createElement("div", {
+      className: "card-body"
+    }, /*#__PURE__*/_react["default"].createElement("h5", {
+      className: "card-title fs-3 font-julius"
+    }, data.name), /*#__PURE__*/_react["default"].createElement("div", {
+      className: "mb-3"
+    }, data.types.map(function (type, index) {
+      return /*#__PURE__*/_react["default"].createElement("span", {
+        key: index,
+        className: "badge text-bg-warning fw-normal me-2"
+      }, type);
+    })), /*#__PURE__*/_react["default"].createElement("div", {
+      className: "row"
+    }, /*#__PURE__*/_react["default"].createElement("div", {
+      className: "col-6 col-sm-4"
+    }, /*#__PURE__*/_react["default"].createElement("h6", {
+      className: "mb-0"
+    }, "Height"), /*#__PURE__*/_react["default"].createElement("p", {
+      className: "mb-0 fs-2 font-julius"
+    }, data.height)), /*#__PURE__*/_react["default"].createElement("div", {
+      className: "col-6 col-sm-4"
+    }, /*#__PURE__*/_react["default"].createElement("h6", {
+      className: "mb-0"
+    }, "Weight"), /*#__PURE__*/_react["default"].createElement("p", {
+      className: "mb-0 fs-2 font-julius"
+    }, data.weight))), /*#__PURE__*/_react["default"].createElement("div", null, data.abilities.map(function (ability, index) {
+      return /*#__PURE__*/_react["default"].createElement("span", {
+        key: index,
+        className: "badge text-bg-dark fw-normal  me-2"
+      }, ability);
+    })))));
+  })));
 };
 
 var _default = PokemonList;
 exports["default"] = _default;
 
-},{"react":17}],28:[function(require,module,exports){
+},{"../utils/ErrorInfo.jsx":30,"react":17}],28:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -36650,7 +36679,11 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _pokemonList = _interopRequireDefault(require("./pokemon-list.jsx"));
 
-var _pokemonUtils = require("./pokemon-utils.jsx");
+var _apiFunctions = require("../utils/apiFunctions.jsx");
+
+var _queryStringParam = _interopRequireDefault(require("../utils/queryStringParam.js"));
+
+var _Loader = _interopRequireDefault(require("../utils/Loader.jsx"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -36677,9 +36710,9 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var API_URL = "https://pokeapi.co/api/v2/pokemon";
-var GetAllPokemon = _pokemonUtils.apiFn.GetAllPokemon,
-    GetPokemon = _pokemonUtils.apiFn.GetPokemon,
-    GetPokemonStats = _pokemonUtils.apiFn.GetPokemonStats;
+var GetAllPokemon = _apiFunctions.apiFunctions.GetAllPokemon,
+    GetPokemon = _apiFunctions.apiFunctions.GetPokemon,
+    GetPokemonStats = _apiFunctions.apiFunctions.GetPokemonStats;
 
 var PokemonPage = function PokemonPage() {
   var _useState = (0, _react.useState)([]),
@@ -36687,10 +36720,15 @@ var PokemonPage = function PokemonPage() {
       pokemonData = _useState2[0],
       setPokemonData = _useState2[1];
 
-  var _useState3 = (0, _react.useState)(""),
+  var _useState3 = (0, _react.useState)(false),
       _useState4 = _slicedToArray(_useState3, 2),
-      currentPageUrl = _useState4[0],
-      setCurrentPageUrl = _useState4[1];
+      dataLoaded = _useState4[0],
+      setDataLoaded = _useState4[1];
+
+  var _useState5 = (0, _react.useState)((0, _queryStringParam["default"])(API_URL)),
+      _useState6 = _slicedToArray(_useState5, 2),
+      currentPageUrl = _useState6[0],
+      setCurrentPageUrl = _useState6[1];
 
   (0, _react.useEffect)(function () {
     function fetchData() {
@@ -36699,7 +36737,7 @@ var PokemonPage = function PokemonPage() {
 
     function _fetchData() {
       _fetchData = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var response, results, totalData;
+        var response, results, pokemonData;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -36709,15 +36747,17 @@ var PokemonPage = function PokemonPage() {
 
               case 2:
                 response = _context.sent;
-                // set next page
                 results = response.results;
                 _context.next = 6;
                 return GetPokemonStats(results);
 
               case 6:
-                totalData = _context.sent;
-                // set pokemondata
-                setPokemonData(totalData);
+                pokemonData = _context.sent;
+
+                if (pokemonData.length > 0) {
+                  setPokemonData(pokemonData);
+                  setDataLoaded(true);
+                }
 
               case 8:
               case "end":
@@ -36730,16 +36770,122 @@ var PokemonPage = function PokemonPage() {
     }
 
     fetchData();
-  });
-  return /*#__PURE__*/_react["default"].createElement(_pokemonList["default"], {
+  }, [currentPageUrl]);
+  return dataLoaded === true ? /*#__PURE__*/_react["default"].createElement(_pokemonList["default"], {
     pokemonData: pokemonData
+  }) : /*#__PURE__*/_react["default"].createElement(_Loader["default"], {
+    flag: dataLoaded
   });
 };
 
 var _default = PokemonPage;
 exports["default"] = _default;
 
-},{"./pokemon-list.jsx":27,"./pokemon-utils.jsx":29,"react":17}],29:[function(require,module,exports){
+},{"../utils/Loader.jsx":31,"../utils/apiFunctions.jsx":32,"../utils/queryStringParam.js":33,"./pokemon-list.jsx":27,"react":17}],29:[function(require,module,exports){
+"use strict";
+
+var _react = _interopRequireDefault(require("react"));
+
+var _client = _interopRequireDefault(require("react-dom/client"));
+
+var _Routes = _interopRequireDefault(require("./components/common/Routes.jsx"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var root = _client["default"].createRoot(document.getElementById("root"));
+
+root.render( /*#__PURE__*/_react["default"].createElement(_Routes["default"], null));
+
+},{"./components/common/Routes.jsx":26,"react":17,"react-dom/client":7}],30:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var ErrorInfo = function ErrorInfo(_ref) {
+  var message = _ref.message;
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "col-6 my-5 mx-auto"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "alert alert-danger d-flex align-items-center",
+    role: "alert"
+  }, /*#__PURE__*/_react["default"].createElement("svg", {
+    className: "ms-3 me-5",
+    version: "1.1",
+    xmlns: "http://www.w3.org/2000/svg",
+    xmlnsXlink: "http://www.w3.org/1999/xlink",
+    x: "0px",
+    y: "0px",
+    viewBox: "0 0 488.451 488.451",
+    fill: "currentColor",
+    style: {
+      height: "50px",
+      width: "50px",
+      enableBackground: "new 0 0 488.451 488.451"
+    },
+    xmlSpace: "preserve"
+  }, /*#__PURE__*/_react["default"].createElement("g", null, /*#__PURE__*/_react["default"].createElement("path", {
+    d: "M484.125,412.013l-212.2-367.6c-12.3-21.3-43.1-21.3-55.4,0l-212.2,367.6c-12.3,21.3,3.1,48,27.7,48h424.4 C481.025,460.013,496.425,433.313,484.125,412.013z M244.525,157.613c13.6,0,24.6,11.3,24.2,24.9l-4,139.6 c-0.3,11-9.3,19.7-20.3,19.7s-20-8.8-20.3-19.7l-3.9-139.6C219.925,168.913,230.825,157.613,244.525,157.613z M244.225,410.113 c-13.9,0-25.2-11.3-25.2-25.2c0-13.9,11.3-25.2,25.2-25.2s25.2,11.3,25.2,25.2S258.125,410.113,244.225,410.113z"
+  }))), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "py-2"
+  }, /*#__PURE__*/_react["default"].createElement("h2", {
+    className: "mb-2 fs-4 text-bold"
+  }, "Error"), /*#__PURE__*/_react["default"].createElement("p", {
+    className: "m-0"
+  }, "An error occurred while trying to fetch Pokemon Info."), /*#__PURE__*/_react["default"].createElement("p", {
+    className: "m-0"
+  }, "Please refresh the browser and try again")), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "mt-2"
+  }, message)))));
+};
+
+var _default = ErrorInfo;
+exports["default"] = _default;
+
+},{"react":17}],31:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var Loader = function Loader(_ref) {
+  var flag = _ref.flag;
+  return flag === false && /*#__PURE__*/_react["default"].createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "col"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "d-flex justify-content-center my-4"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "spinner-border",
+    role: "status"
+  }, /*#__PURE__*/_react["default"].createElement("span", {
+    className: "visually-hidden"
+  }, "Loading..."))))));
+};
+
+var _default = Loader;
+exports["default"] = _default;
+
+},{"react":17}],32:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -36747,7 +36893,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.apiFn = void 0;
+exports.apiFunctions = void 0;
 
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
 
@@ -36755,7 +36901,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//1 get pokemon information
 var GetPokemon = function GetPokemon(_ref) {
   var apiUrl = _ref.url;
   return new Promise(function (resolve, reject) {
@@ -36765,8 +36910,7 @@ var GetPokemon = function GetPokemon(_ref) {
       return resolve(data);
     });
   });
-}; //2 get all pokemon info
-
+};
 
 var GetAllPokemon = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(apiUrl) {
@@ -36798,8 +36942,7 @@ var GetAllPokemon = /*#__PURE__*/function () {
   return function GetAllPokemon(_x) {
     return _ref2.apply(this, arguments);
   };
-}(); //3 get pokemon statistics
-
+}();
 
 var GetPokemonStats = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(response) {
@@ -36866,26 +37009,36 @@ var GetPokemonStats = /*#__PURE__*/function () {
   };
 }();
 
-var apiFn = {
+var apiFunctions = {
   GetAllPokemon: GetAllPokemon,
   GetPokemon: GetPokemon,
   GetPokemonStats: GetPokemonStats
 };
-exports.apiFn = apiFn;
+exports.apiFunctions = apiFunctions;
 
-},{}],30:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 "use strict";
 
-var _react = _interopRequireDefault(require("react"));
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
 
-var _client = _interopRequireDefault(require("react-dom/client"));
+var QS = function QS(url, limit, offset) {
+  var newUrl = new URL(url);
 
-var _Routes = _interopRequireDefault(require("./components/common/Routes"));
+  if (limit) {
+    newUrl.searchParams.set("limit", Number.parseInt(limit));
+  }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+  if (offset) {
+    newUrl.searchParams.set("offset", Number.parseInt(offset));
+  }
 
-var root = _client["default"].createRoot(document.getElementById("root"));
+  return newUrl.toString();
+};
 
-root.render( /*#__PURE__*/_react["default"].createElement(_Routes["default"], null));
+var _default = QS;
+exports["default"] = _default;
 
-},{"./components/common/Routes":25,"react":17,"react-dom/client":7}]},{},[30]);
+},{}]},{},[29]);
