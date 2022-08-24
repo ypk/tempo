@@ -3,6 +3,7 @@ const browserSync = require('browser-sync').create();
 const autoprefixer = require('gulp-autoprefixer');
 const sass = require('gulp-sass')(require('sass'));
 const browserify = require('browserify');
+const vinyl = require('vinyl');
 const source = require("vinyl-source-stream");
 const buffer = require("vinyl-buffer");
 const util = require("gulp-util");
@@ -10,7 +11,7 @@ const rimraf = require('rimraf');
 const babelify = require('babelify');
 
 const SOURCE_PATH = 'src/js/index.jsx';
-const STYLE_PATH = 'src/sass/**/*.scss';
+const STYLE_PATH = 'src/css/*.scss';
 const SCRIPT_PATH = 'src/js/**/*.{js,jsx}';
 const RESOURCES_PATH = ['src/index.html', 'src/images/**/*', 'src/fonts/**/*'];
 const DIST_PATH = 'dist';
@@ -57,7 +58,7 @@ const browserReload = (done) => {
 };
 
 const processStyles = () => {
-    return src(STYLE_PATH)
+    return src(STYLE_PATH, { "base" : "./src/" })
         .pipe(
             sass({ outputStyle: "expanded" }).on("error", sass.logError)
         )
@@ -65,7 +66,7 @@ const processStyles = () => {
             autoprefixer({})
         )
         .pipe(
-            dest('dist/css')
+            dest('dist')
         )
         .pipe(
             browserSync.stream()

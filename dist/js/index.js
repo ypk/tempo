@@ -36568,7 +36568,50 @@ var Layout = function Layout() {
 var _default = Layout;
 exports["default"] = _default;
 
-},{"../pokemon-page.jsx":28,"./Footer.jsx":23,"./Header.jsx":24,"react":17}],26:[function(require,module,exports){
+},{"../pokemon-page.jsx":29,"./Footer.jsx":23,"./Header.jsx":24,"react":17}],26:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var Pagination = function Pagination(_ref) {
+  var hasPrevPage = _ref.hasPrevPage,
+      handlePrevBtnClick = _ref.handlePrevBtnClick,
+      hasNextPage = _ref.hasNextPage,
+      handleNextBtnClick = _ref.handleNextBtnClick;
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "col"
+  }, /*#__PURE__*/_react["default"].createElement("nav", {
+    className: "w-full d-flex mb-5"
+  }, /*#__PURE__*/_react["default"].createElement("ul", {
+    className: "pagination pagination-lg mx-auto"
+  }, /*#__PURE__*/_react["default"].createElement("li", {
+    className: "".concat(!hasPrevPage ? 'page-item disabled' : 'page-item')
+  }, /*#__PURE__*/_react["default"].createElement("button", {
+    onClick: handlePrevBtnClick,
+    className: "page-link"
+  }, "Previous")), /*#__PURE__*/_react["default"].createElement("li", {
+    className: "".concat(!hasNextPage ? 'page-item disabled' : 'page-item')
+  }, /*#__PURE__*/_react["default"].createElement("button", {
+    onClick: handleNextBtnClick,
+    className: "page-link"
+  }, "Next")))))));
+};
+
+var _default = Pagination;
+exports["default"] = _default;
+
+},{"react":17}],27:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36594,7 +36637,7 @@ var AppRoutes = function AppRoutes() {
 var _default = AppRoutes;
 exports["default"] = _default;
 
-},{"./Layout.jsx":25,"react":17,"react-router-dom":9}],27:[function(require,module,exports){
+},{"./Layout.jsx":25,"react":17,"react-router-dom":9}],28:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36611,17 +36654,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var PokemonList = function PokemonList(_ref) {
   var pokemonData = _ref.pokemonData;
   var pokemonDataLength = pokemonData.length;
-  console.log(pokemonData);
   return pokemonDataLength === 0 ? /*#__PURE__*/_react["default"].createElement(_ErrorInfo["default"], null) : /*#__PURE__*/_react["default"].createElement("div", {
     className: "container my-5"
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "row row-cols-1 row-cols-md-3 row-cols-lg-4"
+    className: "row row-cols-1 row-cols-md-2 row-cols-lg-4"
   }, pokemonData.map(function (data, rootIndex) {
     return /*#__PURE__*/_react["default"].createElement("div", {
       className: "col my-4",
       key: rootIndex
     }, /*#__PURE__*/_react["default"].createElement("div", {
-      className: "card"
+      className: "card shadow-sm bg-body rounded"
     }, /*#__PURE__*/_react["default"].createElement("div", {
       className: "image-container"
     }, /*#__PURE__*/_react["default"].createElement("img", {
@@ -36633,30 +36675,32 @@ var PokemonList = function PokemonList(_ref) {
     }, /*#__PURE__*/_react["default"].createElement("h5", {
       className: "card-title fs-3 font-julius"
     }, data.name), /*#__PURE__*/_react["default"].createElement("div", {
-      className: "mb-3"
+      className: "mb-3 pokemon-type"
     }, data.types.map(function (type, index) {
       return /*#__PURE__*/_react["default"].createElement("span", {
         key: index,
-        className: "badge text-bg-warning fw-normal me-2"
+        className: "badge text-bg-warning fw-normal me-2 lh-base"
       }, type);
     })), /*#__PURE__*/_react["default"].createElement("div", {
       className: "row"
     }, /*#__PURE__*/_react["default"].createElement("div", {
-      className: "col-6 col-sm-4"
+      className: "col-6 col-sm-4 col-md-6"
     }, /*#__PURE__*/_react["default"].createElement("h6", {
       className: "mb-0"
     }, "Height"), /*#__PURE__*/_react["default"].createElement("p", {
       className: "mb-0 fs-2 font-julius"
     }, data.height)), /*#__PURE__*/_react["default"].createElement("div", {
-      className: "col-6 col-sm-4"
+      className: "col-6 col-sm-4 col-md-6"
     }, /*#__PURE__*/_react["default"].createElement("h6", {
       className: "mb-0"
     }, "Weight"), /*#__PURE__*/_react["default"].createElement("p", {
       className: "mb-0 fs-2 font-julius"
-    }, data.weight))), /*#__PURE__*/_react["default"].createElement("div", null, data.abilities.map(function (ability, index) {
+    }, data.weight))), /*#__PURE__*/_react["default"].createElement("div", {
+      className: "pokemon-abilities"
+    }, data.abilities.map(function (ability, index) {
       return /*#__PURE__*/_react["default"].createElement("span", {
         key: index,
-        className: "badge text-bg-dark fw-normal  me-2"
+        className: "badge text-bg-dark fw-normal lh-base me-2"
       }, ability);
     })))));
   })));
@@ -36665,7 +36709,7 @@ var PokemonList = function PokemonList(_ref) {
 var _default = PokemonList;
 exports["default"] = _default;
 
-},{"../utils/ErrorInfo.jsx":30,"react":17}],28:[function(require,module,exports){
+},{"../utils/ErrorInfo.jsx":31,"react":17}],29:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -36684,6 +36728,8 @@ var _apiFunctions = require("../utils/apiFunctions.jsx");
 var _queryStringParam = _interopRequireDefault(require("../utils/queryStringParam.js"));
 
 var _Loader = _interopRequireDefault(require("../utils/Loader.jsx"));
+
+var _Pagination = _interopRequireDefault(require("./common/Pagination.jsx"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -36730,6 +36776,26 @@ var PokemonPage = function PokemonPage() {
       currentPageUrl = _useState6[0],
       setCurrentPageUrl = _useState6[1];
 
+  var _useState7 = (0, _react.useState)(null),
+      _useState8 = _slicedToArray(_useState7, 2),
+      prevPageUrl = _useState8[0],
+      setPrevPageUrl = _useState8[1];
+
+  var _useState9 = (0, _react.useState)(null),
+      _useState10 = _slicedToArray(_useState9, 2),
+      nextPageUrl = _useState10[0],
+      setNextPageUrl = _useState10[1];
+
+  var _useState11 = (0, _react.useState)(false),
+      _useState12 = _slicedToArray(_useState11, 2),
+      hasPrevPage = _useState12[0],
+      setHasPrevPage = _useState12[1];
+
+  var _useState13 = (0, _react.useState)(false),
+      _useState14 = _slicedToArray(_useState13, 2),
+      hasNextPage = _useState14[0],
+      setHasNextPage = _useState14[1];
+
   (0, _react.useEffect)(function () {
     function fetchData() {
       return _fetchData.apply(this, arguments);
@@ -36737,17 +36803,17 @@ var PokemonPage = function PokemonPage() {
 
     function _fetchData() {
       _fetchData = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var response, results, pokemonData;
+        var response, results, next, previous, pokemonData;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return GetAllPokemon(API_URL);
+                return GetAllPokemon(currentPageUrl);
 
               case 2:
                 response = _context.sent;
-                results = response.results;
+                results = response.results, next = response.next, previous = response.previous;
                 _context.next = 6;
                 return GetPokemonStats(results);
 
@@ -36756,6 +36822,10 @@ var PokemonPage = function PokemonPage() {
 
                 if (pokemonData.length > 0) {
                   setPokemonData(pokemonData);
+                  setPrevPageUrl(previous);
+                  setNextPageUrl(next);
+                  setHasPrevPage(previous !== null);
+                  setHasNextPage(next !== null);
                   setDataLoaded(true);
                 }
 
@@ -36771,9 +36841,29 @@ var PokemonPage = function PokemonPage() {
 
     fetchData();
   }, [currentPageUrl]);
-  return dataLoaded === true ? /*#__PURE__*/_react["default"].createElement(_pokemonList["default"], {
+
+  var handlePageChange = function handlePageChange(url) {
+    setDataLoaded(false);
+    setPokemonData([]);
+    setCurrentPageUrl(url);
+  };
+
+  var handlePrevBtnClick = function handlePrevBtnClick() {
+    handlePageChange(prevPageUrl);
+  };
+
+  var handleNextBtnClick = function handleNextBtnClick() {
+    handlePageChange(nextPageUrl);
+  };
+
+  return dataLoaded === true ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_pokemonList["default"], {
     pokemonData: pokemonData
-  }) : /*#__PURE__*/_react["default"].createElement(_Loader["default"], {
+  }), /*#__PURE__*/_react["default"].createElement(_Pagination["default"], {
+    hasPrevPage: hasPrevPage,
+    handlePrevBtnClick: handlePrevBtnClick,
+    hasNextPage: hasNextPage,
+    handleNextBtnClick: handleNextBtnClick
+  })) : /*#__PURE__*/_react["default"].createElement(_Loader["default"], {
     flag: dataLoaded
   });
 };
@@ -36781,7 +36871,7 @@ var PokemonPage = function PokemonPage() {
 var _default = PokemonPage;
 exports["default"] = _default;
 
-},{"../utils/Loader.jsx":31,"../utils/apiFunctions.jsx":32,"../utils/queryStringParam.js":33,"./pokemon-list.jsx":27,"react":17}],29:[function(require,module,exports){
+},{"../utils/Loader.jsx":32,"../utils/apiFunctions.jsx":33,"../utils/queryStringParam.js":34,"./common/Pagination.jsx":26,"./pokemon-list.jsx":28,"react":17}],30:[function(require,module,exports){
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -36796,7 +36886,7 @@ var root = _client["default"].createRoot(document.getElementById("root"));
 
 root.render( /*#__PURE__*/_react["default"].createElement(_Routes["default"], null));
 
-},{"./components/common/Routes.jsx":26,"react":17,"react-dom/client":7}],30:[function(require,module,exports){
+},{"./components/common/Routes.jsx":27,"react":17,"react-dom/client":7}],31:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36852,7 +36942,7 @@ var ErrorInfo = function ErrorInfo(_ref) {
 var _default = ErrorInfo;
 exports["default"] = _default;
 
-},{"react":17}],31:[function(require,module,exports){
+},{"react":17}],32:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36885,7 +36975,7 @@ var Loader = function Loader(_ref) {
 var _default = Loader;
 exports["default"] = _default;
 
-},{"react":17}],32:[function(require,module,exports){
+},{"react":17}],33:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -37016,7 +37106,7 @@ var apiFunctions = {
 };
 exports.apiFunctions = apiFunctions;
 
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37041,4 +37131,4 @@ var QS = function QS(url, limit, offset) {
 var _default = QS;
 exports["default"] = _default;
 
-},{}]},{},[29]);
+},{}]},{},[30]);

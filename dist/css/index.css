@@ -10771,13 +10771,6 @@ textarea.form-control-lg {
   font-family: "Julius Sans One", sans-serif;
 }
 
-.header {
-  min-height: 480px;
-}
-.header.header-image {
-  background-size: cover;
-}
-
 .image-container {
   height: 100%;
   width: 100%;
@@ -10788,4 +10781,22 @@ textarea.form-control-lg {
   width: 100%;
   min-height: 250px;
   object-fit: contain;
+}
+
+.header {
+  min-height: 480px;
+}
+.header.header-image {
+  background-size: cover;
+}
+
+.page-item .page-link {
+  color: #000;
+}
+.page-item.disabled .page-link {
+  color: #adb5bd;
+}
+.page-item.active .page-link {
+  background-color: #ffc107;
+  border-color: #000;
 }

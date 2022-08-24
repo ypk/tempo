@@ -9,6 +9,5 @@
     font-family: 'Julius Sans One', sans-serif;
 }
 
-@import "./header.scss";
-@import "./footer.scss";
-@import "../js/components/pokemon-list.scss";
+@import "./components/";
+@import "./components/common/";
