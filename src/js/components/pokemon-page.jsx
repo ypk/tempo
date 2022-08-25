@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { connect, useSelector, useDispatch } from 'react-redux'
+
 import PokemonList from "./pokemon-list.jsx";
 import { apiFunctions } from "../utils/apiFunctions.jsx";
 import QS from "../utils/queryStringParam.js";
@@ -21,6 +23,11 @@ const PokemonPage = () => {
     const [nextPageUrl, setNextPageUrl] = useState(null);
     const [hasPrevPage, setHasPrevPage] = useState(false);
     const [hasNextPage, setHasNextPage] = useState(false);
+    //TODO: get the string from redux store and save it in 'searchOrFilterTerm'
+    const [searchOrFilterTerm, setSearchOrFilterTerm] = useState('')
+    //TODO: get the action type from redux store and save it in 'searchOrFilterActionType'
+    const [searchOrFilterActionType, setSearchOrFilterActionType] = useState('')
+    useSelector(state => console.log(state));
 
     useEffect(() => {
         async function fetchData() {
@@ -66,4 +73,7 @@ const PokemonPage = () => {
     ) : <Loader flag={dataLoaded} />;
 }
 
-export default PokemonPage;
+
+const mapStateToProps = state => state;
+
+export default connect(mapStateToProps)(PokemonPage);
