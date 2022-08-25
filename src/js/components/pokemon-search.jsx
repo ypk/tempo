@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect, useSelector, useDispatch } from 'react-redux'
 import { ADD_SEARCH_OR_FILTER_TERM, addSearchOrFilterTerm } from "../actions";
-import useDebounce from "../utils/debounce.js";
+import Input from "../components/common/DebouncedInput.jsx"
 
 const PokemonSearch = () => {
     const dispatch = useDispatch();
@@ -12,7 +12,6 @@ const PokemonSearch = () => {
     const [selectedAction, setSelectedAction] = useState(SEARCH);
     const [dropdownToggleState, setDropdownToggleState] = useState('');
     const [searchOrFilterTerm, setSearchOrFilterTerm] = useState("");
-    const debouncedTerm = useDebounce(searchOrFilterTerm, 500);
 
     const handleDropdownToggle = () => {
         if (dropdownToggleState === "") {
@@ -29,30 +28,15 @@ const PokemonSearch = () => {
     };
 
     const handleSearchBtnClick = () => {
-        if (debouncedTerm !== "") {
-            //TODO: call 'Search; in PokemonPage
-            // handleSearch(debouncedTerm);
-        }
+        //TODO: call 'Search; in PokemonPage
     };
 
     const handleFilterBtnClick = () => {
-        if (debouncedTerm !== "") {
-            //TODO: call 'Filter' in PokemonPage
-            // handleFilter(debouncedTerm);
-        }
+        //TODO: call 'Filter' in PokemonPage
     };
 
-    const handleSearchOrFilterTermChange = (e) => {
-        e.preventDefault();
-        const { value } = e.target;
-        if (value !== "") {
-            setSearchOrFilterTerm(value);
-            dispatch(addSearchOrFilterTerm(debouncedTerm))
-            // dispatch({ 
-            //     type: ADD_SEARCH_OR_FILTER_TERM,
-            //     payload: debouncedTerm
-            // })
-        }
+    const handleSearchOrFilterTermChange = (value) => {
+        console.log(value);
     }
 
     return (
@@ -60,7 +44,7 @@ const PokemonSearch = () => {
             <div className="container my-5">
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4">
                     <div className="input-group my-5">
-                        <input type="text" className="form-control" placeholder="pikachu" onChange={handleSearchOrFilterTermChange} defaultValue={searchOrFilterTerm} />
+                        <Input className="form-control" placeholder="pikachu" onChange={handleSearchOrFilterTermChange} />
                         {
                             selectedAction === SEARCH ?
                                 (<button className="btn btn-danger" type="button" onClick={handleSearchBtnClick}>{selectedAction}</button>) :

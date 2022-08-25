@@ -39828,7 +39828,7 @@ if (process.env.NODE_ENV === 'production') {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.addSearchOrFilterTerm = exports.actionTypeValue = void 0;
 var ADD_SEARCH_OR_FILTER_TERM = 'ADD_SEARCH_OR_FILTER_TERM';
 var ACTION_TYPE_VALUE = 'ACTION_TYPE_VALUE';
 
@@ -39839,6 +39839,8 @@ var addSearchOrFilterTerm = function addSearchOrFilterTerm(term) {
   };
 };
 
+exports.addSearchOrFilterTerm = addSearchOrFilterTerm;
+
 var actionTypeValue = function actionTypeValue(value) {
   return {
     type: ACTION_TYPE_VALUE,
@@ -39846,15 +39848,80 @@ var actionTypeValue = function actionTypeValue(value) {
   };
 };
 
+exports.actionTypeValue = actionTypeValue;
 var _default = {
   ADD_SEARCH_OR_FILTER_TERM: ADD_SEARCH_OR_FILTER_TERM,
-  ACTION_TYPE_VALUE: ACTION_TYPE_VALUE,
-  addSearchOrFilterTerm: addSearchOrFilterTerm,
-  actionTypeValue: actionTypeValue
+  ACTION_TYPE_VALUE: ACTION_TYPE_VALUE
 };
 exports["default"] = _default;
 
 },{}],69:[function(require,module,exports){
+"use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _debounce = _interopRequireDefault(require("../../utils/debounce.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var Input = function Input(_ref) {
+  var className = _ref.className,
+      placeholder = _ref.placeholder,
+      onChange = _ref.onChange;
+
+  var _useState = (0, _react.useState)(''),
+      _useState2 = _slicedToArray(_useState, 2),
+      text = _useState2[0],
+      setText = _useState2[1];
+
+  var debouncedText = (0, _debounce["default"])(text, 250);
+
+  var onChangeHandler = function onChangeHandler(e) {
+    e.preventDefault();
+    var value = e.target.value;
+
+    if (value !== "") {
+      setText(value);
+      onChange(debouncedText);
+    }
+  };
+
+  return /*#__PURE__*/_react["default"].createElement("input", {
+    type: "text",
+    className: className,
+    placeholder: placeholder,
+    onChange: onChangeHandler,
+    value: text
+  });
+};
+
+var _default = Input;
+exports["default"] = _default;
+
+},{"../../utils/debounce.js":84,"react":56}],70:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39877,7 +39944,7 @@ var Footer = function Footer() {
 var _default = Footer;
 exports["default"] = _default;
 
-},{"react":56}],70:[function(require,module,exports){
+},{"react":56}],71:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39907,7 +39974,7 @@ var Header = function Header() {
 var _default = Header;
 exports["default"] = _default;
 
-},{"../pokemon-search.jsx":76,"react":56}],71:[function(require,module,exports){
+},{"../pokemon-search.jsx":77,"react":56}],72:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39938,7 +40005,7 @@ var Layout = function Layout() {
 var _default = Layout;
 exports["default"] = _default;
 
-},{"../../stores":79,"../pokemon-page.jsx":75,"./Footer.jsx":69,"./Header.jsx":70,"react":56,"react-redux":36}],72:[function(require,module,exports){
+},{"../../stores":80,"../pokemon-page.jsx":76,"./Footer.jsx":70,"./Header.jsx":71,"react":56,"react-redux":36}],73:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39981,7 +40048,7 @@ var Pagination = function Pagination(_ref) {
 var _default = Pagination;
 exports["default"] = _default;
 
-},{"react":56}],73:[function(require,module,exports){
+},{"react":56}],74:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40007,7 +40074,7 @@ var AppRoutes = function AppRoutes() {
 var _default = AppRoutes;
 exports["default"] = _default;
 
-},{"./Layout.jsx":71,"react":56,"react-router-dom":48}],74:[function(require,module,exports){
+},{"./Layout.jsx":72,"react":56,"react-router-dom":48}],75:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40079,7 +40146,7 @@ var PokemonList = function PokemonList(_ref) {
 var _default = PokemonList;
 exports["default"] = _default;
 
-},{"../utils/ErrorInfo.jsx":80,"react":56}],75:[function(require,module,exports){
+},{"../utils/ErrorInfo.jsx":81,"react":56}],76:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -40129,7 +40196,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var API_URL = "https://pokeapi.co/api/v2/pokemon";
 var GetAllPokemon = _apiFunctions.apiFunctions.GetAllPokemon,
-    GetPokemon = _apiFunctions.apiFunctions.GetPokemon,
     GetPokemonStats = _apiFunctions.apiFunctions.GetPokemonStats;
 
 var PokemonPage = function PokemonPage() {
@@ -40166,22 +40232,22 @@ var PokemonPage = function PokemonPage() {
   var _useState13 = (0, _react.useState)(false),
       _useState14 = _slicedToArray(_useState13, 2),
       hasNextPage = _useState14[0],
-      setHasNextPage = _useState14[1]; //TODO: get the string from redux store and save it in 'searchOrFilterTerm'
-
+      setHasNextPage = _useState14[1];
 
   var _useState15 = (0, _react.useState)(''),
       _useState16 = _slicedToArray(_useState15, 2),
       searchOrFilterTerm = _useState16[0],
-      setSearchOrFilterTerm = _useState16[1]; //TODO: get the action type from redux store and save it in 'searchOrFilterActionType'
+      setSearchOrFilterTerm = _useState16[1]; //TODO: get the string from redux store and save it in 'searchOrFilterTerm'
 
 
   var _useState17 = (0, _react.useState)(''),
       _useState18 = _slicedToArray(_useState17, 2),
       searchOrFilterActionType = _useState18[0],
-      setSearchOrFilterActionType = _useState18[1];
+      setSearchOrFilterActionType = _useState18[1]; //TODO: get the action type from redux store and save it in 'searchOrFilterActionType'
+
 
   (0, _reactRedux.useSelector)(function (state) {
-    return console.log(state);
+    console.log(state);
   });
   (0, _react.useEffect)(function () {
     function fetchData() {
@@ -40263,7 +40329,7 @@ var _default = (0, _reactRedux.connect)(mapStateToProps)(PokemonPage);
 
 exports["default"] = _default;
 
-},{"../utils/Loader.jsx":81,"../utils/apiFunctions.jsx":82,"../utils/queryStringParam.js":84,"./common/Pagination.jsx":72,"./pokemon-list.jsx":74,"react":56,"react-redux":36}],76:[function(require,module,exports){
+},{"../utils/Loader.jsx":82,"../utils/apiFunctions.jsx":83,"../utils/queryStringParam.js":85,"./common/Pagination.jsx":73,"./pokemon-list.jsx":75,"react":56,"react-redux":36}],77:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -40279,7 +40345,7 @@ var _reactRedux = require("react-redux");
 
 var _actions = require("../actions");
 
-var _debounce = _interopRequireDefault(require("../utils/debounce.js"));
+var _DebouncedInput = _interopRequireDefault(require("../components/common/DebouncedInput.jsx"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -40319,8 +40385,6 @@ var PokemonSearch = function PokemonSearch() {
       searchOrFilterTerm = _useState6[0],
       setSearchOrFilterTerm = _useState6[1];
 
-  var debouncedTerm = (0, _debounce["default"])(searchOrFilterTerm, 500);
-
   var handleDropdownToggle = function handleDropdownToggle() {
     if (dropdownToggleState === "") {
       setDropdownToggleState('show');
@@ -40335,29 +40399,14 @@ var PokemonSearch = function PokemonSearch() {
     setDropdownToggleState('');
   };
 
-  var handleSearchBtnClick = function handleSearchBtnClick() {
-    if (debouncedTerm !== "") {//TODO: call 'Search; in PokemonPage
-      // handleSearch(debouncedTerm);
-    }
+  var handleSearchBtnClick = function handleSearchBtnClick() {//TODO: call 'Search; in PokemonPage
   };
 
-  var handleFilterBtnClick = function handleFilterBtnClick() {
-    if (debouncedTerm !== "") {//TODO: call 'Filter' in PokemonPage
-      // handleFilter(debouncedTerm);
-    }
+  var handleFilterBtnClick = function handleFilterBtnClick() {//TODO: call 'Filter' in PokemonPage
   };
 
-  var handleSearchOrFilterTermChange = function handleSearchOrFilterTermChange(e) {
-    e.preventDefault();
-    var value = e.target.value;
-
-    if (value !== "") {
-      setSearchOrFilterTerm(value);
-      dispatch((0, _actions.addSearchOrFilterTerm)(debouncedTerm)); // dispatch({ 
-      //     type: ADD_SEARCH_OR_FILTER_TERM,
-      //     payload: debouncedTerm
-      // })
-    }
+  var handleSearchOrFilterTermChange = function handleSearchOrFilterTermChange(value) {
+    console.log(value);
   };
 
   return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", {
@@ -40366,12 +40415,10 @@ var PokemonSearch = function PokemonSearch() {
     className: "row row-cols-1 row-cols-md-2 row-cols-lg-4"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "input-group my-5"
-  }, /*#__PURE__*/_react["default"].createElement("input", {
-    type: "text",
+  }, /*#__PURE__*/_react["default"].createElement(_DebouncedInput["default"], {
     className: "form-control",
     placeholder: "pikachu",
-    onChange: handleSearchOrFilterTermChange,
-    defaultValue: searchOrFilterTerm
+    onChange: handleSearchOrFilterTermChange
   }), selectedAction === SEARCH ? /*#__PURE__*/_react["default"].createElement("button", {
     className: "btn btn-danger",
     type: "button",
@@ -40409,7 +40456,7 @@ var _default = (0, _reactRedux.connect)(mapStateToProps)(PokemonSearch);
 
 exports["default"] = _default;
 
-},{"../actions":68,"../utils/debounce.js":83,"react":56,"react-redux":36}],77:[function(require,module,exports){
+},{"../actions":68,"../components/common/DebouncedInput.jsx":69,"react":56,"react-redux":36}],78:[function(require,module,exports){
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -40424,7 +40471,7 @@ var root = _client["default"].createRoot(document.getElementById("root"));
 
 root.render( /*#__PURE__*/_react["default"].createElement(_Routes["default"], null));
 
-},{"./components/common/Routes.jsx":73,"react":56,"react-dom/client":16}],78:[function(require,module,exports){
+},{"./components/common/Routes.jsx":74,"react":56,"react-dom/client":16}],79:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40452,6 +40499,7 @@ var reducer = function reducer() {
 
   switch (action.type) {
     case _actions.ADD_SEARCH_OR_FILTER_TERM:
+      console.log('I\'m here in reducer');
       return _objectSpread(_objectSpread({}, state), {}, {
         searchOrFilterTerm: action.payload
       });
@@ -40469,7 +40517,7 @@ var reducer = function reducer() {
 var _default = reducer;
 exports["default"] = _default;
 
-},{"../actions":68}],79:[function(require,module,exports){
+},{"../actions":68}],80:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40483,11 +40531,11 @@ var _reducers = _interopRequireDefault(require("../reducers"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var store = (0, _redux.createStore)(_reducers["default"]);
+var store = (0, _redux.createStore)(_reducers["default"], window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 var _default = store;
 exports["default"] = _default;
 
-},{"../reducers":78,"redux":57}],80:[function(require,module,exports){
+},{"../reducers":79,"redux":57}],81:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40543,7 +40591,7 @@ var ErrorInfo = function ErrorInfo(_ref) {
 var _default = ErrorInfo;
 exports["default"] = _default;
 
-},{"react":56}],81:[function(require,module,exports){
+},{"react":56}],82:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40576,7 +40624,7 @@ var Loader = function Loader(_ref) {
 var _default = Loader;
 exports["default"] = _default;
 
-},{"react":56}],82:[function(require,module,exports){
+},{"react":56}],83:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -40707,21 +40755,15 @@ var apiFunctions = {
 };
 exports.apiFunctions = apiFunctions;
 
-},{}],83:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 "use strict";
-
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 
-var _react = _interopRequireWildcard(require("react"));
-
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+var _react = require("react");
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -40755,7 +40797,7 @@ var useDebounce = function useDebounce(value, delay) {
 var _default = useDebounce;
 exports["default"] = _default;
 
-},{"react":56}],84:[function(require,module,exports){
+},{"react":56}],85:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40780,4 +40822,4 @@ var QS = function QS(url, limit, offset) {
 var _default = QS;
 exports["default"] = _default;
 
-},{}]},{},[77]);
+},{}]},{},[78]);

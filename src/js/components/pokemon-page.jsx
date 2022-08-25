@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect, useSelector, useDispatch } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 
 import PokemonList from "./pokemon-list.jsx";
 import { apiFunctions } from "../utils/apiFunctions.jsx";
@@ -11,7 +11,6 @@ const API_URL = "https://pokeapi.co/api/v2/pokemon";
 
 const {
     GetAllPokemon,
-    GetPokemon,
     GetPokemonStats
 } = apiFunctions;
 
@@ -23,11 +22,13 @@ const PokemonPage = () => {
     const [nextPageUrl, setNextPageUrl] = useState(null);
     const [hasPrevPage, setHasPrevPage] = useState(false);
     const [hasNextPage, setHasNextPage] = useState(false);
-    //TODO: get the string from redux store and save it in 'searchOrFilterTerm'
     const [searchOrFilterTerm, setSearchOrFilterTerm] = useState('')
-    //TODO: get the action type from redux store and save it in 'searchOrFilterActionType'
+    //TODO: get the string from redux store and save it in 'searchOrFilterTerm'
     const [searchOrFilterActionType, setSearchOrFilterActionType] = useState('')
-    useSelector(state => console.log(state));
+    //TODO: get the action type from redux store and save it in 'searchOrFilterActionType'
+    useSelector(state => {
+        console.log(state)
+    });
 
     useEffect(() => {
         async function fetchData() {

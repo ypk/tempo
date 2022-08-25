@@ -10,6 +10,7 @@ const defaultState = {
 const reducer = (state = defaultState, action) => {
     switch (action.type) {
         case ADD_SEARCH_OR_FILTER_TERM:
+            console.log('I\'m here in reducer')
             return {
                 ...state,
                 searchOrFilterTerm: action.payload
