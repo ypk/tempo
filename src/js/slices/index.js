@@ -1,13 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const SEARCH = "Search";
-const FILTER = "Filter";
 
 const pokemonSlice = createSlice({
     name: 'pokemonState',
     initialState: {
-        actionType: SEARCH,
-        searchOrFilterTerm: "",
+        actionType: '',
+        searchOrFilterTerm: '',
         pokemonData: []
     },
     reducers: {

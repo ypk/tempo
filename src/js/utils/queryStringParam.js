@@ -1,5 +1,8 @@
-const QS = (url, limit, offset) => {
+const QS = (url, name, limit, offset) => {
     const newUrl = new URL(url); 
+    if(name) {
+        newUrl.pathname += `/${name}`;
+    }
     if(limit) {
         newUrl.searchParams.set("limit", Number.parseInt(limit));
     }

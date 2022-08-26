@@ -17,6 +17,9 @@ const {
 
 const PokemonPage = () => {
     const dispatch = useDispatch();
+    const SEARCH = 'Search';
+    const FILTER = 'Filter';
+    const { actionType, searchOrFilterTerm } = useSelector(state => state.pokemonState);
     const [pokemonData, setPokemonData] = useState([]);
     const [dataLoaded, setDataLoaded] = useState(false);
     const [currentPageUrl, setCurrentPageUrl] = useState(QS(API_URL));
@@ -25,23 +28,27 @@ const PokemonPage = () => {
     const [hasPrevPage, setHasPrevPage] = useState(false);
     const [hasNextPage, setHasNextPage] = useState(false);
 
-    // useSelector(state => {
-    //     const { actionType, searchOrFilterTerm, pokemonData: pd } = state.pokemonState;
-    //     setPokemonData(pd);
-    //     if(actionType === "Filter"){
-    //         const foundItem = pd.filter((item)=> item.name === searchOrFilterTerm);
-    //         setPokemonData(foundItem);
-    //     }
-    // });
-
     useEffect(() => {
         async function fetchData() {
             let response = await GetAllPokemon(currentPageUrl);
             const { results, next, previous } = response;
-            const pokemonData = await GetPokemonStats(results);
-            if (pokemonData.length > 0) {
-//                dispatch(addPokemon(pokemonData));
-                setPokemonData(pokemonData)
+            const pokemonDataResponse = await GetPokemonStats(results);
+            if (pokemonDataResponse.length > 0) {
+                if (searchOrFilterTerm !== "") {
+                    if (actionType === SEARCH) {
+                        const searchURL = QS(API_URL, searchOrFilterTerm);
+                        setCurrentPageUrl(searchURL);
+                    } else if (actionType === FILTER) {
+                        const filteredPokemonData = pokemonDataResponse.filter(pokemon => pokemon.name === searchOrFilterTerm);
+                        if (filteredPokemonData) {
+                            setPokemonData(filteredPokemonData);
+                        } else {
+                            setPokemonData([]);
+                        }
+                    }
+                } else {
+                    setPokemonData(pokemonDataResponse);
+                }
                 setPrevPageUrl(previous);
                 setNextPageUrl(next);
                 setHasPrevPage(previous !== null)

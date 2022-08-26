@@ -5,10 +5,8 @@ import { DebounceInput } from 'react-debounce-input'
 
 const PokemonSearch = () => {
     const dispatch = useDispatch()
-
     const SEARCH = 'Search';
     const FILTER = 'Filter';
-
     const [selectedAction, setSelectedAction] = useState(SEARCH);
     const [dropdownToggleState, setDropdownToggleState] = useState('');
     const [, setSearchOrFilterTerm] = useState("");
@@ -52,15 +50,15 @@ const PokemonSearch = () => {
                         />
                         {
                             selectedAction === SEARCH ?
-                                (<button className="btn btn-danger" type="button" onClick={event => handleSearchOrFilterActionsChange(event, SEARCH)}>{selectedAction}</button>) :
-                                (<button className="btn btn-danger" type="button" onClick={event => handleSearchOrFilterActionsChange(event, FILTER)}>{selectedAction}</button>)
+                                (<button className="btn btn-danger btn-action" type="button" onClick={event => handleSearchOrFilterActionsChange(event, SEARCH)}>{selectedAction}</button>) :
+                                (<button className="btn btn-danger btn-action" type="button" onClick={event => handleSearchOrFilterActionsChange(event, FILTER)}>{selectedAction}</button>)
                         }
                         <button type="button" className="btn btn-danger dropdown-toggle dropdown-toggle-split" onClick={handleDropdownToggle}>
                             <span className="visually-hidden">Toggle Dropdown</span>
                         </button>
-                        <ul className={`dropdown-menu dropdown-menu-end dropdown-visible ${dropdownToggleState}`}>
-                            <li><button className="dropdown-item" onClick={e => handleActionBtnClick(e, SEARCH)}>{SEARCH}</button></li>
-                            <li><button className="dropdown-item" onClick={e => handleActionBtnClick(e, FILTER)}>{FILTER}</button></li>
+                        <ul className={`dropdown-menu dropdown-menu-end dropdown-visible p-0 bg-danger ${dropdownToggleState}`}>
+                            <li className="dropdown-option"><button className="dropdown-item" onClick={e => handleActionBtnClick(e, SEARCH)}>{SEARCH}</button></li>
+                            <li className="dropdown-option"><button className="dropdown-item" onClick={e => handleActionBtnClick(e, FILTER)}>{FILTER}</button></li>
                         </ul>
                     </div>
                 </div>
