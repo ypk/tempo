@@ -27,7 +27,7 @@ const PokemonPage = () => {
     const [searchOrFilterActionType, setSearchOrFilterActionType] = useState('')
     //TODO: get the action type from redux store and save it in 'searchOrFilterActionType'
     useSelector(state => {
-        console.log(state)
+        // console.log({ pokemonPageState: state })
     });
 
     useEffect(() => {
@@ -47,7 +47,7 @@ const PokemonPage = () => {
 
         fetchData();
     }, [currentPageUrl])
-    
+
     const handlePageChange = (url) => {
         setDataLoaded(false);
         setPokemonData([]);
@@ -61,11 +61,11 @@ const PokemonPage = () => {
     const handleNextBtnClick = () => {
         handlePageChange(nextPageUrl);
     };
-    
+
     return dataLoaded === true ? (
         <>
             <PokemonList pokemonData={pokemonData} />
-            <Pagination 
+            <Pagination
                 hasPrevPage={hasPrevPage}
                 handlePrevBtnClick={handlePrevBtnClick}
                 hasNextPage={hasNextPage}
