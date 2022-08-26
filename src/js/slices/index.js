@@ -6,13 +6,8 @@ const pokemonSlice = createSlice({
     initialState: {
         actionType: '',
         searchOrFilterTerm: '',
-        pokemonData: []
     },
     reducers: {
-        addPokemon: (state, action) => {
-            const { payload } = action;
-            state.pokemonData = payload;
-        },
         addSearchAction: (state, action) => {
             const { payload } = action;
             if (payload !== "") {
@@ -28,6 +23,6 @@ const pokemonSlice = createSlice({
     }
 });
 
-export const { addSearchAction, addSearchTerm, addPokemon } = pokemonSlice.actions;
+export const { addSearchAction, addSearchTerm } = pokemonSlice.actions;
 
 export default pokemonSlice.reducer;

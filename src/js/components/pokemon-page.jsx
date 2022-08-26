@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect, useSelector, useDispatch } from 'react-redux'
-import { addPokemon } from "../slices";
+import { connect, useSelector } from 'react-redux'
 import PokemonList from "./pokemon-list.jsx";
 import { apiFunctions } from "../utils/apiFunctions.jsx";
 import QS from "../utils/queryStringParam.js";
@@ -16,7 +15,6 @@ const {
 } = apiFunctions;
 
 const PokemonPage = () => {
-    const dispatch = useDispatch();
     const SEARCH = 'Search';
     const FILTER = 'Filter';
     const { actionType, searchOrFilterTerm } = useSelector(state => state.pokemonState);
@@ -58,7 +56,7 @@ const PokemonPage = () => {
         }
 
         fetchData();
-    }, [currentPageUrl])
+    }, [currentPageUrl, pokemonData])
 
     const handlePageChange = (url) => {
         setDataLoaded(false);
