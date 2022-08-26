@@ -44963,14 +44963,11 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _ErrorInfo = _interopRequireDefault(require("../utils/ErrorInfo.jsx"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var PokemonList = function PokemonList(_ref) {
   var pokemonData = _ref.pokemonData;
-  var pokemonDataLength = pokemonData.length;
-  return pokemonDataLength === 0 ? /*#__PURE__*/_react["default"].createElement(_ErrorInfo["default"], null) : /*#__PURE__*/_react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: "container my-5"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "row row-cols-1 row-cols-md-2 row-cols-lg-4"
@@ -45025,7 +45022,7 @@ var PokemonList = function PokemonList(_ref) {
 var _default = PokemonList;
 exports["default"] = _default;
 
-},{"../utils/ErrorInfo.jsx":91,"react":65}],86:[function(require,module,exports){
+},{"react":65}],86:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -45039,6 +45036,8 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _reactRedux = require("react-redux");
 
+var _slices = require("../slices");
+
 var _pokemonList = _interopRequireDefault(require("./pokemon-list.jsx"));
 
 var _apiFunctions = require("../utils/apiFunctions.jsx");
@@ -45048,6 +45047,8 @@ var _queryStringParam = _interopRequireDefault(require("../utils/queryStringPara
 var _Loader = _interopRequireDefault(require("../utils/Loader.jsx"));
 
 var _Pagination = _interopRequireDefault(require("./common/Pagination.jsx"));
+
+var _ErrorInfo = _interopRequireDefault(require("../utils/ErrorInfo.jsx"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -45078,6 +45079,8 @@ var GetAllPokemon = _apiFunctions.apiFunctions.GetAllPokemon,
     GetPokemonStats = _apiFunctions.apiFunctions.GetPokemonStats;
 
 var PokemonPage = function PokemonPage() {
+  var dispatch = (0, _reactRedux.useDispatch)();
+
   var _useState = (0, _react.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
       pokemonData = _useState2[0],
@@ -45111,22 +45114,16 @@ var PokemonPage = function PokemonPage() {
   var _useState13 = (0, _react.useState)(false),
       _useState14 = _slicedToArray(_useState13, 2),
       hasNextPage = _useState14[0],
-      setHasNextPage = _useState14[1];
-
-  var _useState15 = (0, _react.useState)(''),
-      _useState16 = _slicedToArray(_useState15, 2),
-      searchOrFilterTerm = _useState16[0],
-      setSearchOrFilterTerm = _useState16[1]; //TODO: get the string from redux store and save it in 'searchOrFilterTerm'
-
-
-  var _useState17 = (0, _react.useState)(''),
-      _useState18 = _slicedToArray(_useState17, 2),
-      searchOrFilterActionType = _useState18[0],
-      setSearchOrFilterActionType = _useState18[1]; //TODO: get the action type from redux store and save it in 'searchOrFilterActionType'
+      setHasNextPage = _useState14[1]; // useSelector(state => {
+  //     const { actionType, searchOrFilterTerm, pokemonData: pd } = state.pokemonState;
+  //     setPokemonData(pd);
+  //     if(actionType === "Filter"){
+  //         const foundItem = pd.filter((item)=> item.name === searchOrFilterTerm);
+  //         setPokemonData(foundItem);
+  //     }
+  // });
 
 
-  (0, _reactRedux.useSelector)(function (state) {// console.log({ pokemonPageState: state })
-  });
   (0, _react.useEffect)(function () {
     function fetchData() {
       return _fetchData.apply(this, arguments);
@@ -45152,6 +45149,7 @@ var PokemonPage = function PokemonPage() {
                 pokemonData = _context.sent;
 
                 if (pokemonData.length > 0) {
+                  //                dispatch(addPokemon(pokemonData));
                   setPokemonData(pokemonData);
                   setPrevPageUrl(previous);
                   setNextPageUrl(next);
@@ -45187,7 +45185,7 @@ var PokemonPage = function PokemonPage() {
     handlePageChange(nextPageUrl);
   };
 
-  return dataLoaded === true ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_pokemonList["default"], {
+  return dataLoaded === true ? pokemonData.length === 0 ? /*#__PURE__*/_react["default"].createElement(_ErrorInfo["default"], null) : /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_pokemonList["default"], {
     pokemonData: pokemonData
   }), /*#__PURE__*/_react["default"].createElement(_Pagination["default"], {
     hasPrevPage: hasPrevPage,
@@ -45207,7 +45205,7 @@ var _default = (0, _reactRedux.connect)(mapStateToProps)(PokemonPage);
 
 exports["default"] = _default;
 
-},{"../utils/Loader.jsx":92,"../utils/apiFunctions.jsx":93,"../utils/queryStringParam.js":94,"./common/Pagination.jsx":83,"./pokemon-list.jsx":85,"react":65,"react-redux":42}],87:[function(require,module,exports){
+},{"../slices":89,"../utils/ErrorInfo.jsx":91,"../utils/Loader.jsx":92,"../utils/apiFunctions.jsx":93,"../utils/queryStringParam.js":94,"./common/Pagination.jsx":83,"./pokemon-list.jsx":85,"react":65,"react-redux":42}],87:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -45258,7 +45256,6 @@ var PokemonSearch = function PokemonSearch() {
 
   var _useState5 = (0, _react.useState)(""),
       _useState6 = _slicedToArray(_useState5, 2),
-      searchOrFilterTerm = _useState6[0],
       setSearchOrFilterTerm = _useState6[1];
 
   var handleDropdownToggle = function handleDropdownToggle() {
@@ -45296,7 +45293,7 @@ var PokemonSearch = function PokemonSearch() {
     className: "form-control",
     placeholder: "pikachu",
     minLength: 1,
-    debounceTimeout: 250,
+    debounceTimeout: 500,
     onChange: function onChange(event) {
       return handleSearchOrFilterTermChange(event);
     }
@@ -45362,7 +45359,7 @@ root.render( /*#__PURE__*/_react["default"].createElement(_Routes["default"], nu
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.addSearchTerm = exports.addSearchAction = void 0;
+exports["default"] = exports.addSearchTerm = exports.addSearchAction = exports.addPokemon = void 0;
 
 var _toolkit = require("@reduxjs/toolkit");
 
@@ -45372,9 +45369,14 @@ var pokemonSlice = (0, _toolkit.createSlice)({
   name: 'pokemonState',
   initialState: {
     actionType: SEARCH,
-    searchOrFilterTerm: ""
+    searchOrFilterTerm: "",
+    pokemonData: []
   },
   reducers: {
+    addPokemon: function addPokemon(state, action) {
+      var payload = action.payload;
+      state.pokemonData = payload;
+    },
     addSearchAction: function addSearchAction(state, action) {
       var payload = action.payload;
 
@@ -45393,7 +45395,9 @@ var pokemonSlice = (0, _toolkit.createSlice)({
 });
 var _pokemonSlice$actions = pokemonSlice.actions,
     addSearchAction = _pokemonSlice$actions.addSearchAction,
-    addSearchTerm = _pokemonSlice$actions.addSearchTerm;
+    addSearchTerm = _pokemonSlice$actions.addSearchTerm,
+    addPokemon = _pokemonSlice$actions.addPokemon;
+exports.addPokemon = addPokemon;
 exports.addSearchTerm = addSearchTerm;
 exports.addSearchAction = addSearchAction;
 var _default = pokemonSlice.reducer;

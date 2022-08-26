@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { connect, useSelector } from 'react-redux'
-
+import { connect, useSelector, useDispatch } from 'react-redux'
+import { addPokemon } from "../slices";
 import PokemonList from "./pokemon-list.jsx";
 import { apiFunctions } from "../utils/apiFunctions.jsx";
 import QS from "../utils/queryStringParam.js";
 import Loader from "../utils/Loader.jsx";
 import Pagination from './common/Pagination.jsx';
+import ErrorInfo from '../utils/ErrorInfo.jsx';
 
 const API_URL = "https://pokeapi.co/api/v2/pokemon";
 
@@ -15,6 +16,7 @@ const {
 } = apiFunctions;
 
 const PokemonPage = () => {
+    const dispatch = useDispatch();
     const [pokemonData, setPokemonData] = useState([]);
     const [dataLoaded, setDataLoaded] = useState(false);
     const [currentPageUrl, setCurrentPageUrl] = useState(QS(API_URL));
@@ -22,13 +24,15 @@ const PokemonPage = () => {
     const [nextPageUrl, setNextPageUrl] = useState(null);
     const [hasPrevPage, setHasPrevPage] = useState(false);
     const [hasNextPage, setHasNextPage] = useState(false);
-    const [searchOrFilterTerm, setSearchOrFilterTerm] = useState('')
-    //TODO: get the string from redux store and save it in 'searchOrFilterTerm'
-    const [searchOrFilterActionType, setSearchOrFilterActionType] = useState('')
-    //TODO: get the action type from redux store and save it in 'searchOrFilterActionType'
-    useSelector(state => {
-        // console.log({ pokemonPageState: state })
-    });
+
+    // useSelector(state => {
+    //     const { actionType, searchOrFilterTerm, pokemonData: pd } = state.pokemonState;
+    //     setPokemonData(pd);
+    //     if(actionType === "Filter"){
+    //         const foundItem = pd.filter((item)=> item.name === searchOrFilterTerm);
+    //         setPokemonData(foundItem);
+    //     }
+    // });
 
     useEffect(() => {
         async function fetchData() {
@@ -36,7 +40,8 @@ const PokemonPage = () => {
             const { results, next, previous } = response;
             const pokemonData = await GetPokemonStats(results);
             if (pokemonData.length > 0) {
-                setPokemonData(pokemonData);
+//                dispatch(addPokemon(pokemonData));
+                setPokemonData(pokemonData)
                 setPrevPageUrl(previous);
                 setNextPageUrl(next);
                 setHasPrevPage(previous !== null)
@@ -62,7 +67,7 @@ const PokemonPage = () => {
         handlePageChange(nextPageUrl);
     };
 
-    return dataLoaded === true ? (
+    return dataLoaded === true ? pokemonData.length === 0 ? <ErrorInfo /> : (
         <>
             <PokemonList pokemonData={pokemonData} />
             <Pagination

@@ -11,7 +11,7 @@ const PokemonSearch = () => {
 
     const [selectedAction, setSelectedAction] = useState(SEARCH);
     const [dropdownToggleState, setDropdownToggleState] = useState('');
-    const [searchOrFilterTerm, setSearchOrFilterTerm] = useState("");
+    const [, setSearchOrFilterTerm] = useState("");
 
     const handleDropdownToggle = () => {
         if (dropdownToggleState === "") {
@@ -47,7 +47,7 @@ const PokemonSearch = () => {
                             className="form-control"
                             placeholder="pikachu"
                             minLength={1}
-                            debounceTimeout={250}
+                            debounceTimeout={500}
                             onChange={event => handleSearchOrFilterTermChange(event)}
                         />
                         {
