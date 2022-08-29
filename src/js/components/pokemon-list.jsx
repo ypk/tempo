@@ -30,7 +30,7 @@ const PokemonList = ({ pokemonData }) => {
                                     </div>
                                     <div className="pokemon-abilities">
                                         {
-                                            data.abilities.map((ability, index) => <span key={index} className="badge text-bg-dark fw-normal lh-base me-2">{ability}</span>)
+                                            data.abilities.map((ability, index) => <span key={index} className={`abilities badge text-bg-dark fw-normal lh-base me-2 ${index >= 2 ? 'mt-1':''}`}>{ability}</span>)
                                         }
                                     </div>
                                 </div>

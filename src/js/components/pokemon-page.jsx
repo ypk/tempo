@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { connect, useSelector } from 'react-redux'
+import { connect, useSelector, useDispatch } from 'react-redux'
+import { addPokemonData } from "../slices"
 import PokemonList from "./pokemon-list.jsx";
 import { apiFunctions } from "../utils/apiFunctions.jsx";
 import QS from "../utils/queryStringParam.js";
@@ -15,9 +16,9 @@ const {
 } = apiFunctions;
 
 const PokemonPage = () => {
+    const dispatch = useDispatch();
     const SEARCH = 'Search';
     const FILTER = 'Filter';
-    const { actionType, searchOrFilterTerm } = useSelector(state => state.pokemonState);
     const [pokemonData, setPokemonData] = useState([]);
     const [dataLoaded, setDataLoaded] = useState(false);
     const [currentPageUrl, setCurrentPageUrl] = useState(QS(API_URL));
@@ -25,6 +26,11 @@ const PokemonPage = () => {
     const [nextPageUrl, setNextPageUrl] = useState(null);
     const [hasPrevPage, setHasPrevPage] = useState(false);
     const [hasNextPage, setHasNextPage] = useState(false);
+    const { actionType, searchOrFilterTerm, pokemonData: pokemonStateData } = useSelector(state => state.pokemonState);
+
+    useEffect(() => {
+        setPokemonData(pokemonStateData)
+    }, [pokemonStateData]);
 
     useEffect(() => {
         async function fetchData() {
@@ -45,7 +51,8 @@ const PokemonPage = () => {
                         }
                     }
                 } else {
-                    setPokemonData(pokemonDataResponse);
+                    dispatch(addPokemonData(pokemonDataResponse));
+                    //                    setPokemonData(pokemonDataResponse);
                 }
                 setPrevPageUrl(previous);
                 setNextPageUrl(next);
