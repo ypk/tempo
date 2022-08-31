@@ -4,7 +4,7 @@ const ErrorInfo = ({ errorMessage, closeErrorCallback }) => {
     return (
         <div className="container">
             <div className="row">
-                <div className="col-6 mt-5 mx-auto">
+                <div className="col-6 my-5 mx-auto">
                     <div className="alert alert-danger d-flex align-items-center" role="alert">
                         <div className="d-flex">
                             <div className="d-flex align-items-center alert-icon">

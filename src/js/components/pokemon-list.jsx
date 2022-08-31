@@ -6,7 +6,7 @@ const PokemonList = ({ pokemonData }) => {
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4">
                 {pokemonData.map((pokemon, rootIndex) => {
                     return (
-                        <a className="col my-4 pokemon-card text-decoration-none text-body" key={rootIndex} href={`https://www.wikiwand.com/en/${pokemon.name}`}>
+                        <a className="col my-4 pokemon-card text-decoration-none text-body" key={rootIndex} href={`https://pokemon.fandom.com/wiki/${pokemon.name}`}>
                             <div className="card bg-body rounded">
                                 <div className="image-container">
                                     <img className="card-img-top p-4" src={`https://img.pokemondb.net/artwork/large/${pokemon.name}.jpg`} alt={pokemon.name} />

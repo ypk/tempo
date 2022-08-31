@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { connect, useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { addSearchTerm, addSearchAction } from "../slices"
 import { DebounceInput } from 'react-debounce-input'
 
@@ -9,7 +9,13 @@ const PokemonSearch = () => {
     const FILTER = 'Filter';
     const [selectedAction, setSelectedAction] = useState(SEARCH);
     const [dropdownToggleState, setDropdownToggleState] = useState('');
-    const [, setSearchOrFilterTerm] = useState("");
+    const [searchOrFilterTerm, setSearchOrFilterTerm] = useState("");
+
+    const { isFormReset, setSearchOrFilterTerm: sofTermFromState } = useSelector(state => state.pokemonState);
+
+    useEffect(() => {
+        setSearchOrFilterTerm(sofTermFromState)
+    }, [sofTermFromState, isFormReset])
 
     const handleDropdownToggle = () => {
         if (dropdownToggleState === "") {
@@ -26,7 +32,7 @@ const PokemonSearch = () => {
     };
 
     const handleSearchOrFilterActionsChange = (event, action) => {
-        setSearchOrFilterTerm(action);
+        setSelectedAction(action);
         dispatch(addSearchAction(action));
     };
 
@@ -42,10 +48,11 @@ const PokemonSearch = () => {
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4">
                     <div className="input-group my-5">
                         <DebounceInput
-                            className="form-control"
+                            className="form-control form-control-lg"
                             placeholder="pikachu"
                             minLength={1}
                             debounceTimeout={500}
+                            value={isFormReset ? "" : searchOrFilterTerm}
                             onChange={event => handleSearchOrFilterTermChange(event)}
                         />
                         {

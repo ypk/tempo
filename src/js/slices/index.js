@@ -6,30 +6,46 @@ const pokemonSlice = createSlice({
     initialState: {
         actionType: '',
         searchOrFilterTerm: '',
-        pokemonData: []
+        pokemonData: [],
+        isFormReset: false
     },
     reducers: {
         addSearchAction: (state, action) => {
             const { payload } = action;
-            if (payload !== "") {
+            if (state.isFormReset) {
                 state.actionType = payload;
+            } else {
+                if (payload !== "") {
+                    state.actionType = payload;
+                }
             }
+        },
+        toggleFormReset: (state) => {
+            state.isFormReset = !state.isFormReset;
         },
         addSearchTerm: (state, action) => {
             const { payload } = action;
-            if (payload !== "") {
+            if (state.isFormReset) {
                 state.searchOrFilterTerm = payload;
+            } else {
+                if (payload !== "") {
+                    state.searchOrFilterTerm = payload;
+                }
             }
         },
         addPokemonData: (state, action) => {
             const { payload } = action;
-            if (payload.length !== 0) {
+            if (state.isFormReset) {
                 state.pokemonData = payload;
+            } else {
+                if (payload.length !== 0) {
+                    state.pokemonData = payload;
+                }
             }
         }
     }
 });
 
-export const { addSearchAction, addSearchTerm, addPokemonData } = pokemonSlice.actions;
+export const { addSearchAction, addSearchTerm, addPokemonData, toggleFormReset } = pokemonSlice.actions;
 
 export default pokemonSlice.reducer;

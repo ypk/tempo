@@ -4,7 +4,7 @@ import {
     useSelector,
     useDispatch
 } from 'react-redux'
-import { addPokemonData } from "../slices"
+import { addPokemonData, addSearchAction, addSearchTerm, toggleFormReset } from "../slices"
 import PokemonList from "./pokemon-list.jsx";
 import {
     GetPokemon,
@@ -37,7 +37,7 @@ const PokemonPage = () => {
     const [actionError, setActionError] = useState(null);
     const [isSearching, setIsSearching] = useState(false);
     const [actionDataHolder, setActionDataHolder] = useState([]);
-    const { actionType, searchOrFilterTerm, pokemonData: pokemonStateData } = useSelector(state => state.pokemonState);
+    const { actionType, searchOrFilterTerm, isFormReset, pokemonData: pokemonStateData } = useSelector(state => state.pokemonState);
 
     async function fetchData(url) {
         if (url && url !== undefined) {
@@ -84,31 +84,32 @@ const PokemonPage = () => {
                                 return;
                             }
                             dispatch(addPokemonData(searchResultsData));
-                            setHasPrevPage(null)
-                            setHasNextPage(null)
+                            setHasPrevPage(null);
+                            setHasNextPage(null);
                             setDataLoaded(true);
                         })
                 } catch (e) {
                     console.error(e)
                 }
-
             }
         }
     }, [actionType, searchOrFilterTerm]);
 
+    const handlePokemonData = ({ pokemonDataResponse, next, previous }) => {
+        if (pokemonDataResponse.length > 0) {
+            setActionError(null);
+            dispatch(addPokemonData(pokemonDataResponse));
+            setPrevPageUrl(previous);
+            setNextPageUrl(next);
+            setHasPrevPage(previous !== null)
+            setHasNextPage(next !== null)
+            setDataLoaded(true);
+        }
+    };
+
     useEffect(() => {
         fetchData()
-            .then(({ pokemonDataResponse, next, previous }) => {
-                if (pokemonDataResponse.length > 0) {
-                    setActionError(null);
-                    dispatch(addPokemonData(pokemonDataResponse));
-                    setPrevPageUrl(previous);
-                    setNextPageUrl(next);
-                    setHasPrevPage(previous !== null)
-                    setHasNextPage(next !== null)
-                    setDataLoaded(true);
-                }
-            });
+            .then(({ pokemonDataResponse, next, previous }) => handlePokemonData({ pokemonDataResponse, next, previous }));
     }, [currentPageUrl])
 
     const handlePageChange = (url) => {
@@ -130,7 +131,13 @@ const PokemonPage = () => {
     };
 
     const handleResetApp = () => {
-        window.location.reload()
+        setDataLoaded(false);
+        dispatch(toggleFormReset());
+        dispatch(addPokemonData([]));
+        dispatch(addSearchAction(""));
+        dispatch(addSearchTerm(""));
+        fetchData().then(({ pokemonDataResponse, next, previous }) => handlePokemonData({ pokemonDataResponse, next, previous }));
+        dispatch(toggleFormReset());
     }
 
     return dataLoaded === true ? pokemonData.length === 0 ? <ErrorInfo /> : (
