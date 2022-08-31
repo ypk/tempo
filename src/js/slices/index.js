@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const pokemonSlice = createSlice({
     name: 'pokemonState',
     initialState: {
-        actionType: 'Search',
+        actionType: '',
         searchOrFilterTerm: '',
         pokemonData: []
     },

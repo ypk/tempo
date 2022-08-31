@@ -1,19 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { connect, useSelector, useDispatch } from 'react-redux'
+import {
+    connect,
+    useSelector,
+    useDispatch
+} from 'react-redux'
 import { addPokemonData } from "../slices"
 import PokemonList from "./pokemon-list.jsx";
-import { apiFunctions } from "../utils/apiFunctions.jsx";
+import {
+    GetPokemon,
+    GetAllPokemon,
+    GetPokemonStats,
+    GetAbilities,
+    GetTypes
+} from "../utils/index.js";
 import QS from "../utils/queryStringParam.js";
-import Loader from "../utils/Loader.jsx";
-import Pagination from './common/Pagination.jsx';
-import ErrorInfo from '../utils/ErrorInfo.jsx';
+import {
+    Loader,
+    Pagination,
+    ErrorInfo,
+    ResetApp
+} from "./common/index.js";
 
 const API_URL = "https://pokeapi.co/api/v2/pokemon";
-
-const {
-    GetAllPokemon,
-    GetPokemonStats
-} = apiFunctions;
 
 const PokemonPage = () => {
     const dispatch = useDispatch();
@@ -26,44 +34,82 @@ const PokemonPage = () => {
     const [nextPageUrl, setNextPageUrl] = useState(null);
     const [hasPrevPage, setHasPrevPage] = useState(false);
     const [hasNextPage, setHasNextPage] = useState(false);
+    const [actionError, setActionError] = useState(null);
+    const [isSearching, setIsSearching] = useState(false);
+    const [actionDataHolder, setActionDataHolder] = useState([]);
     const { actionType, searchOrFilterTerm, pokemonData: pokemonStateData } = useSelector(state => state.pokemonState);
+
+    async function fetchData(url) {
+        if (url && url !== undefined) {
+            let response = await GetPokemon({ url });
+            const { abilities, height, name, types, weight } = response;
+            return [{ abilities: GetAbilities(abilities), height, name, types: GetTypes(types), weight }];
+        } else {
+            let response = await GetAllPokemon(currentPageUrl);
+            const { results, next, previous } = response;
+            const pokemonDataResponse = await GetPokemonStats(results);
+            return { pokemonDataResponse, next, previous };
+        }
+    }
 
     useEffect(() => {
         setPokemonData(pokemonStateData)
     }, [pokemonStateData]);
 
+    const resetUI = (data, message) => {
+        dispatch(addPokemonData(data));
+        message && setActionError(message);
+        setIsSearching(false);
+    };
+
     useEffect(() => {
-        async function fetchData() {
-            let response = await GetAllPokemon(currentPageUrl);
-            const { results, next, previous } = response;
-            const pokemonDataResponse = await GetPokemonStats(results);
-            if (pokemonDataResponse.length > 0) {
-                if (searchOrFilterTerm !== "") {
-                    if (actionType === SEARCH) {
-                        const searchURL = QS(API_URL, searchOrFilterTerm);
-                        setCurrentPageUrl(searchURL);
-                    } else if (actionType === FILTER) {
-                        const filteredPokemonData = pokemonDataResponse.filter(pokemon => pokemon.name === searchOrFilterTerm);
-                        if (filteredPokemonData) {
-                            setPokemonData(filteredPokemonData);
-                        } else {
-                            setPokemonData([]);
-                        }
-                    }
-                } else {
-                    dispatch(addPokemonData(pokemonDataResponse));
-                    //                    setPokemonData(pokemonDataResponse);
+        if (searchOrFilterTerm !== "" && actionType !== "") {
+            setActionDataHolder(pokemonData);
+            setIsSearching(true);
+            setActionError(null);
+            if (actionType === FILTER) {
+                const filteredPokemonData = pokemonData.filter(pokemon => pokemon.name === searchOrFilterTerm);
+                if (filteredPokemonData.length === 0) {
+                    resetUI(pokemonData, "The pokemon you've tried to look up does not exist in this page. Please try again on the next page or use Search instead");
+                    return;
                 }
-                setPrevPageUrl(previous);
-                setNextPageUrl(next);
-                setHasPrevPage(previous !== null)
-                setHasNextPage(next !== null)
-                setDataLoaded(true);
+                dispatch(addPokemonData(filteredPokemonData));
+            } else if (actionType === SEARCH) {
+                const searchUrl = QS(API_URL, searchOrFilterTerm);
+                try {
+                    fetchData(searchUrl)
+                        .then((searchResultsData) => {
+                            if (Object.keys(searchResultsData).length === 0) {
+                                resetUI(pokemonData, "The pokemon you've tried to look up does not exist. Please try again with a different pokemon");
+                                return;
+                            }
+                            dispatch(addPokemonData(searchResultsData));
+                            setHasPrevPage(null)
+                            setHasNextPage(null)
+                            setDataLoaded(true);
+                        })
+                } catch (e) {
+                    console.error(e)
+                }
+
             }
         }
+    }, [actionType, searchOrFilterTerm]);
 
-        fetchData();
-    }, [currentPageUrl, pokemonData])
+    useEffect(() => {
+        fetchData()
+            .then(({ pokemonDataResponse, next, previous }) => {
+                if (pokemonDataResponse.length > 0) {
+                    setActionError(null);
+                    dispatch(addPokemonData(pokemonDataResponse));
+                    setPrevPageUrl(previous);
+                    setNextPageUrl(next);
+                    setHasPrevPage(previous !== null)
+                    setHasNextPage(next !== null)
+                    setDataLoaded(true);
+                }
+            });
+    }, [currentPageUrl])
 
     const handlePageChange = (url) => {
         setDataLoaded(false);
@@ -79,14 +125,23 @@ const PokemonPage = () => {
         handlePageChange(nextPageUrl);
     };
 
+    const handleCloseError = () => {
+        setActionError(null)
+    };
+
+    const handleResetApp = () => {
+        window.location.reload()
+    }
+
     return dataLoaded === true ? pokemonData.length === 0 ? <ErrorInfo /> : (
         <>
+            {actionError !== null && <ErrorInfo errorMessage={actionError} closeErrorCallback={handleCloseError} />}
             <PokemonList pokemonData={pokemonData} />
-            <Pagination
+            {!isSearching ? (<Pagination
                 hasPrevPage={hasPrevPage}
                 handlePrevBtnClick={handlePrevBtnClick}
                 hasNextPage={hasNextPage}
-                handleNextBtnClick={handleNextBtnClick} />
+                handleNextBtnClick={handleNextBtnClick} />) : (<ResetApp onClick={handleResetApp} />)}
         </>
     ) : <Loader flag={dataLoaded} />;
 }

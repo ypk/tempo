@@ -11,9 +11,9 @@ const rimraf = require('rimraf');
 const babelify = require('babelify');
 
 const SOURCE_PATH = 'src/js/index.jsx';
-const STYLE_PATH = 'src/css/*.scss';
+const STYLE_PATH = 'src/css/**/*.{scss,sass,css}';
 const SCRIPT_PATH = 'src/js/**/*.{js,jsx}';
-const RESOURCES_PATH = ['src/index.html', 'src/images/**/*', 'src/fonts/**/*'];
+const RESOURCES_PATH = ['src/**/*.*', '!js', '!css'];
 const DIST_PATH = 'dist';
 
 const serve = (done) => {

@@ -1,0 +1,16 @@
+.alert-icon {
+  width: 90px;
+}
+
+.close-btn-container {
+  $btn-dimension: 45px;
+  width: $btn-dimension;
+  button {
+    &.btn-alert-close {
+      padding: 0.125rem;
+      height: $btn-dimension;
+      width: $btn-dimension;
+      color: $red-700;
+    }
+  }
+}

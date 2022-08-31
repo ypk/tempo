@@ -1,21 +1,30 @@
-.image-container {
-  height: 100%;
-  width: 100%;
-  max-height: 250px;
-
-  .card-img-top {
+.pokemon-card {
+  .card {
+    box-shadow: $box-shadow-sm;
+    &:hover,
+    &:focus {
+      box-shadow: $box-shadow-lg;
+    }
+  }
+  .image-container {
     height: 100%;
     width: 100%;
-    min-height: 250px;
     max-height: 250px;
-    object-fit: scale-down;
-  }
-}
 
-.pokemon-abilities {
-  @include media-breakpoint-down(md) {
-    .abilities {
-      min-height: 55px;
+    .card-img-top {
+      height: 100%;
+      width: 100%;
+      min-height: 250px;
+      max-height: 250px;
+      object-fit: scale-down;
+    }
+  }
+
+  .pokemon-abilities {
+    @include media-breakpoint-down(md) {
+      .abilities {
+        min-height: 55px;
+      }
     }
   }
 }
