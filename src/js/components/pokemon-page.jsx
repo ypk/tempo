@@ -4,7 +4,12 @@ import {
     useSelector,
     useDispatch
 } from 'react-redux'
-import { addPokemonData, addSearchAction, addSearchTerm, toggleFormReset } from "../slices"
+import {
+    addPokemonData,
+    addSearchAction,
+    addSearchTerm,
+    toggleFormReset
+} from "../slices"
 import PokemonList from "./pokemon-list.jsx";
 import {
     GetPokemon,
@@ -68,7 +73,7 @@ const PokemonPage = () => {
             setIsSearching(true);
             setActionError(null);
             if (actionType === FILTER) {
-                const filteredPokemonData = pokemonData.filter(pokemon => pokemon.name === searchOrFilterTerm);
+                const filteredPokemonData = pokemonData.filter(pokemon => pokemon.name.toLowerCase() === searchOrFilterTerm.toLowerCase());
                 if (filteredPokemonData.length === 0) {
                     resetUI(pokemonData, "The pokemon you've tried to look up does not exist in this page. Please try again on the next page or use Search instead");
                     return;
@@ -137,7 +142,6 @@ const PokemonPage = () => {
         dispatch(addSearchAction(""));
         dispatch(addSearchTerm(""));
         fetchData().then(({ pokemonDataResponse, next, previous }) => handlePokemonData({ pokemonDataResponse, next, previous }));
-        dispatch(toggleFormReset());
     }
 
     return dataLoaded === true ? pokemonData.length === 0 ? <ErrorInfo /> : (

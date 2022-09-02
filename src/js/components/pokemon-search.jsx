@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect, useDispatch, useSelector } from 'react-redux'
-import { addSearchTerm, addSearchAction } from "../slices"
+import { addSearchTerm, addSearchAction, toggleFormReset } from "../slices"
 import { DebounceInput } from 'react-debounce-input'
 
 const PokemonSearch = () => {
@@ -11,11 +11,15 @@ const PokemonSearch = () => {
     const [dropdownToggleState, setDropdownToggleState] = useState('');
     const [searchOrFilterTerm, setSearchOrFilterTerm] = useState("");
 
-    const { isFormReset, setSearchOrFilterTerm: sofTermFromState } = useSelector(state => state.pokemonState);
+    const { actionType, isFormReset, searchOrFilterTerm: sofTermFromState } = useSelector(state => state.pokemonState);
 
     useEffect(() => {
-        setSearchOrFilterTerm(sofTermFromState)
-    }, [sofTermFromState, isFormReset])
+        if (actionType === "" && sofTermFromState === "" && isFormReset === true) {
+            setSelectedAction(SEARCH);
+            setSearchOrFilterTerm('');
+            dispatch(toggleFormReset());
+        }
+    }, [actionType, sofTermFromState, isFormReset])
 
     const handleDropdownToggle = () => {
         if (dropdownToggleState === "") {
